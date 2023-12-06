@@ -238,14 +238,18 @@ form!: FormGroup;
   }
 }
 
-//Explanation: Here we have a reactive form with its respective validations, sing the Validators operator from Angular/forms. We implemented a submit type button that will be enabled when the inputs are valir.
+//Explanation: Here we have a reactive form with its respective validations, sing the Validators operator from Angular/forms. We implemented a submit type button that will be enabled when the inputs are valid.
 ```
+
+
 
 # CSS & Bootstrap
 
 ## Exercice: Card _(5 points)_
 
 ![image](uploads/0388377207d10f8732e1d64623a255b6/image.png)
+
+```typescript
 
 
  <div class="card position-relative" style="width: 26rem">
