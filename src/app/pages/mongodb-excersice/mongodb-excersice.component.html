@@ -1,0 +1,80 @@
+<main class="container mt-5">
+    <div>
+        <h5>Complete the query, you have a variable that contains a piece of text to search for. Search by exact email, starts with first or last name and only users logged in for 6 months</h5>
+        <pre>db.collections('users').find(...);</pre> 
+        <textarea name="" id="" cols="30" rows="10" style="width: 100%;">
+          let searchText = 'your_search_text';
+          let sixMonthsAgo = new Date();
+          sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+          
+          db.collection('users').find({
+            $or: [
+              { email: searchText },
+              { first_name: { $regex: ^${searchText}, $options: 'i' } },
+              { last_name: { $regex: ^${searchText}, $options: 'i' } }
+            ],
+            last_connection_date: { $gte: sixMonthsAgo }
+          });
+         </textarea>
+         <span>Explanation: The query remains like this to retrieve exact search by email, name, and last name. </span>
+
+         <div class="mt-3">
+          <span>What should be added to the collection so that the query is not slow?</span>
+           <textarea name="" id="" cols="30" rows="10" style="width: 100%;">
+            db.collection('users').createIndex({ email: 1, first_name: 1, last_name: 1, last_connection_date: 1 });
+           </textarea>
+           <span>Explanation: If we want the database to be faster, we should create an index.</span>
+         </div>
+    </div>
+
+    <div class="mt-4">
+      <h5>Complete the aggregation so that it sends user emails by role</h5>
+      <pre>db.collections('users').aggregate(...);</pre> 
+      <textarea name="" id="" cols="30" rows="10" style="width: 100%;">
+        db.collection('users').aggregate([
+          { $unwind: "$roles" },
+          {
+            $group: {
+              _id: "$roles",
+              users: { $push: "$email" }
+            }
+          }
+        ]);
+       </textarea>
+       <span>Explanation: The query for sending a message depending on the user's role is used in this way, with a $group.</span>
+  </div>
+
+  <div class="mt-4">
+    <h5>Update document ObjectId("5cd96d3ed5d3e20029627d4a"), modify only last_connection_date with current date</h5>
+    <pre>db.collections('users').updateOne(...);</pre> 
+    <textarea name="" id="" cols="30" rows="10" style="width: 100%;">
+        db.collection('users').updateOne(
+          { _id: ObjectId("5cd96d3ed5d3e20029627d4a") },
+          { $set: { last_connection_date: new Date() } }
+        );
+     </textarea>
+     <span>Explanation: Update last_connection_date with current date</span>
+  </div>
+  <div class="mt-4">
+    <h5>Update document ObjectId("5cd96d3ed5d3e20029627d4a"), add a role admin</h5>
+    <pre>db.collections('users').updateOne(...);</pre> 
+    <textarea name="" id="" cols="30" rows="10" style="width: 100%;">
+        db.collection('users').updateOne(
+          { _id: ObjectId("5cd96d3ed5d3e20029627d4a") },
+          { $push: { roles: 'admin' } }
+        );
+     </textarea>
+     <span>Explanation: with the update operator $push we add the new role admin, assuming that there is a field of roles already defined. If that wouldn't be the case and we had to create it on the spot, we can do it using the update operator $addToSet instead.</span>
+  </div>
+
+  <div class="mt-4">
+    <h5>Update document ObjectId("5cd96d3ed5d3e20029627d4a"), modify addresses with zip 75001 and replace city with Paris 1</h5>
+    <pre>db.collections('users').updateOne(...);</pre> 
+    <textarea name="" id="" cols="30" rows="10" style="width: 100%;">
+      db.collection('users').updateOne(
+        { _id: ObjectId("5cd96d3ed5d3e20029627d4a"), "addresses.zip": 75001 },
+        { $set: { "addresses.$.city": 'Paris 1'}});
+     </textarea>
+     <span>Explanation: Modify addresses with zip 75001 and replace city with 'Paris 1'</span>
+  </div>
+</main>

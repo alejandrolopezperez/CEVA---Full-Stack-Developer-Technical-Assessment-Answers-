@@ -1,0 +1,42 @@
+<main class="text-center mt-5">
+  <form [formGroup]="form" (ngSubmit)="doSubmit()">
+    <input
+      type="text"
+      placeholder="email"
+      id="email"
+      formControlName="email"
+      class="form-control w-25 mx-auto mb-3"
+    />
+    <input
+      type="text"
+      placeholder="name"
+      id="name"
+      formControlName="name"
+      class="form-control w-25 mx-auto mb-3"
+    />
+    <input
+      type="date"
+      placeholder="birthday"
+      id="birthday"
+      formControlName="birthday"
+      class="form-control w-25 mx-auto mb-3"
+    />
+    <input
+      type="number"
+      placeholder="zip"
+      id="zip"
+      formControlName="zip"
+      class="form-control w-25 mx-auto mb-3"
+    />
+    <input
+      type="text"
+      placeholder="city"
+      id="city"
+      formControlName="city"
+      class="form-control w-25 mx-auto mb-3"
+    />
+    <button type="submit" [disabled]="form.invalid" class="btn btn-primary">
+      Send
+    </button>
+  </form>
+</main>

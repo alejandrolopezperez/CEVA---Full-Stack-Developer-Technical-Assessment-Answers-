@@ -1,0 +1,10 @@
+<main class="text-cente mt-5">
+  <input
+    type="text"
+    [(ngModel)]="query"
+    (ngModelChange)="querySubject.next($event)"
+  />
+  <div *ngFor="let user of users">
+    {{ user.email }}
+  </div>
+</main>
